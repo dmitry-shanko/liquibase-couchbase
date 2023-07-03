@@ -70,7 +70,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: build
         steps:
-            -   uses: actions/checkout@v3
+            -   uses: actions/checkout@v2
 
             -   name: Get Reusable Script Files
                 run: |
@@ -110,7 +110,7 @@ jobs:
                 with:
                     target_commitish: ${{ needs.build.outputs.releaseSha }}
                     name: v${{ needs.build.outputs.artifactVersion }}
-                    tag_name: ${{ env.tagName }}
+                    tag_name: v${{ env.tagName }}
                     draft: true
                     body: Liquibase Couchbase extension v${{ needs.build.outputs.artifactVersion }}
                 env:
