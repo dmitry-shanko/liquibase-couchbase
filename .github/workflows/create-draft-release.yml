@@ -103,9 +103,9 @@ jobs:
                 run: |
                     echo "Artifacts: ${{ env.artifactName }}"
                     echo "Tag Name: ${{ env.tagName }}"
-                    ls -a
 
             -   name: Create Draft Release
+                id: create-new-release
                 uses: softprops/action-gh-release@v1
                 with:
                     target_commitish: ${{ needs.build.outputs.releaseSha }}
@@ -113,9 +113,18 @@ jobs:
                     tag_name: ${{ env.tagName }}
                     draft: true
                     body: Liquibase Couchbase extension v${{ needs.build.outputs.artifactVersion }}
-                    files: liquibase-couchbase.zip
                 env:
                     GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+                    
+            -   name: Upload sources to Release
+                uses: actions/upload-release-asset@v1
+                env: 
+                    GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+                with:
+                    upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+                    asset_path: liquibase-couchbase.zip
+                    asset_name: ${{ env.artifactName }}.zip
+                    asset_content_type: application/zip
 
             -   name: Delete Outdated Files from Draft Release
                 id: delete-outdated-release-asset
