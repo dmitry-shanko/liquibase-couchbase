@@ -93,6 +93,10 @@ jobs:
             -   name: Create Tag Name
                 id: tag-name
                 run: echo "tagName=${{ needs.build.outputs.artifactVersion }}" >> $GITHUB_ENV
+                
+            -   name: Zip Liquibase couchbase
+                id: zip-liquibase-couchbase
+                run: zip -r -q liquibase-couchbase.zip liquibase-couchbase
 
             -   name: Echo Info
                 id: echo-version
@@ -106,10 +110,10 @@ jobs:
                 with:
                     target_commitish: ${{ needs.build.outputs.releaseSha }}
                     name: v${{ needs.build.outputs.artifactVersion }}
-                    tag_name: v${{ env.tagName }}
+                    tag_name: ${{ env.tagName }}
                     draft: true
                     body: Liquibase Couchbase extension v${{ needs.build.outputs.artifactVersion }}
-                    files: liquibase-couchbase/*
+                    files: liquibase-couchbase.zip
                 env:
                     GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
 
