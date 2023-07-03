@@ -112,15 +112,15 @@ jobs:
                 env:
                     GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
 
-            -   name: Delete Outdated Files from Draft Release
-                id: delete-outdated-release-asset
-                uses: mknejp/delete-release-assets@v1
-                with:
-                    token: ${{ secrets.BOT_TOKEN }}
-                    tag: ${{ env.tagName }}
-                    fail-if-no-assets: false
-                    fail-if-no-release: false
-                    assets: "${{ needs.build.outputs.artifactId }}-*"
+#             -   name: Delete Outdated Files from Draft Release
+#                 id: delete-outdated-release-asset
+#                 uses: mknejp/delete-release-assets@v1
+#                 with:
+#                     token: ${{ secrets.BOT_TOKEN }}
+#                     tag: ${{ env.tagName }}
+#                     fail-if-no-assets: false
+#                     fail-if-no-release: false
+#                     assets: "${{ needs.build.outputs.artifactId }}-*"
 
             -   name: Import GPG key
                 id: import_gpg
